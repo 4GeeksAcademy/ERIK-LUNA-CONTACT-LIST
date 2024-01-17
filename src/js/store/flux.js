@@ -1,94 +1,62 @@
-const getState = ({ getStore, getActions, setStore }) => {
-	const data = [];
+
+
+  const getState = ({ getStore, getActions, setStore }) => {
 	return {
-	  store: {
-		
-		contacts: []
-	  },
-	  actions: {
-		// Otras acciones...
-		addContact: (newContact) => {
-			const store = getStore();
-			const updatedContacts = [...store.contacts, newContact];
+		store: {
 			
-	
-			setStore({ contacts: updatedContacts });
-	
-			var requestOptions = {
-			  method: 'POST',
-			  headers: {"Content-Type": "application/json"},
-			  body: JSON.stringify(newContact)
-			};
-	
-			fetch("https://playground.4geeks.com/apis/fake/contact", requestOptions)
-			  .then(response => response.text())
-			  .then(result => console.log(result))
-			  .catch(error => console.log('error', error));
-		  },
+			contacts: [],
+			current_contact: null
+			
+		},
+		actions: {
 
-		editContact: (editedContact, index) => {
-		  
-			const store = getStore();
-			const updatedContacts = [...store.contacts];
-			updatedContacts[index] = editedContact;
-	
-			setStore({ contacts: updatedContacts });
-	
-			var requestOptions = {
-			  method: 'PUT',
-			  headers: {"Content-Type": "application/json"},
-			  body: JSON.stringify(editedContact)
-			};
-	
-			fetch("https://playground.4geeks.com/apis/fake/contact/agenda/Erik-Luna", requestOptions)
-			  .then(response => response.text())
-			  .then(result => console.log(result))
-			  .catch(error => console.log('error', error));
-		  
-		},
+			createContact: (contact) => {
+				
+				fetch("https://playground.4geeks.com/apis/fake/contact/", {
+					method: "POST",
+					body: JSON.stringify(contact),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+				.then((response) => response.json())
+				.then((data) => console.log(data))
+			},
 
-		deleteContacts: (id) => {
-		  const store = getStore();
-		  console.log("deleteContacts");
-		  console.log("Eliminar íd: " + id);
-		//   console.log(store.contacts.filter((item, index) => index !== indexDelete));
-  
-		  setStore({ contacts: store.contacts.filter((item) => item.id !== id) });
-  
-		  var requestOptions = {
-			method: 'DELETE',
-			redirect: 'follow'
-		  };
-  
-		  fetch("https://playground.4geeks.com/apis/fake/contact/" + id, requestOptions)
-			.then(response => response.text())
-			.then(result => console.log(result))
-			.catch(error => console.log('error', error));
-		},
-		loadSomeData: () => {
-		  console.log("loadSomeData");
-		  setStore({ contacts: data });
-  
-		  fetch("https://playground.4geeks.com/apis/fake/contact/agenda/Erik-Luna")
-			.then((response) => response.json())
-			.then(data => setStore({ contacts: data }));
-		},
-		changeColor: (index, color) => {
-		  //get the store
-		  const store = getStore();
-		  //we have to loop the entire demo array to look for the respective index
-		  //and change its color
-		  const demo = store.demo.map((elm, i) => {
-			if (i === index) elm.background = color;
-			return elm;
-		  });
-  
-		  //reset the global store
-		  setStore({ demo: demo });
+			
+			deleteContact: (indexDelete) => {
+				console.log(indexDelete)
+				let requestOptions = {
+					method: 'DELETE',
+					redirect: 'follow'
+				  };
+				  
+				  fetch("https://playground.4geeks.com/apis/fake/contact/" + indexDelete, requestOptions)
+					.then(response => response.json())
+					.then(result => console.log(result))
+					.then(() => {
+						fetch("https://playground.4geeks.com/apis/fake/contact/agenda/Erik-Luna")
+						.then((response) => response.json())
+						.then((data) => setStore({ contacts: data}))
+					});
+			},
+
+
+			loadSomeData: (id) => {
+				let path = ""
+				id ? path="/"+id : path="/agenda/Erik-Luna"
+
+				fetch("https://playground.4geeks.com/apis/fake/contact" + path)
+					.then(response => response.json())
+					.then((data) => {
+						console.log(data)
+						id==false ? setStore({contacts:data}) : setStore({current_contact:data})
+						
+			})}
 		}
-	  }
 	};
-  };
-  
-  export default getState;
+};
+
+export default getState;
+
   
