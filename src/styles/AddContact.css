@@ -5,9 +5,8 @@ body {
 .image {
     display: inline-block;
     border-radius: 50%;
-    margin-right: 100px;
+    margin-right: 20px; /* Ajuste del margen */
     margin-bottom: 20px;
-    margin-left: 40px;
 }
 
 .image img {
@@ -18,28 +17,27 @@ body {
 .contact {
     display: flex;
     border: solid 1px grey;
-    margin-bottom: 1px;
-    padding-top: 20px;
+    margin-bottom: 10px; /* Ajuste del margen inferior */
+    padding: 20px;
 }
 
 .information {
-    margin-right: 500px;
-    width: 300px;
+    flex-grow: 1; /* Ocupar el espacio disponible */
+    margin-right: 20px; /* Ajuste del margen derecho */
 }
 
-.icons {
-    margin-top: 20px;
+.editContact {
+    display: flex;
+    align-items: center;
 }
 
-.pencil {
-    margin-right: 40px;
+.editContact button {
+    margin-right: 10px; /* Ajuste del margen entre los botones */
 }
-
 
 .addContact {
-    margin-left: 1150px;
-    margin-bottom: 40px;
-    
+    margin-left: auto; /* Mover a la derecha, ajuste de margen izquierdo */
+    margin-bottom: 20px; /* Ajuste del margen inferior */
 }
 
 button {
